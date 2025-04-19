@@ -1,22 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// 导入Inter字体
+const inter = Inter({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  title: "易术科技 | 创新技术解决方案",
-  description: "易术科技是专注于提供创新技术解决方案的企业，致力于帮助客户实现数字化转型。",
+  title: "易术科技 | 不破不立",
+  description: "易术科技是专注于提供创新技术解决方案的企业，致力于通过AI技术重构生产力。",
 };
 
 export default function RootLayout({
@@ -25,9 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${inter.variable} antialiased min-h-screen flex flex-col bg-black text-white`}
       >
         <Header />
         <main className="flex-1">{children}</main>

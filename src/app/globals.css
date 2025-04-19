@@ -3,24 +3,263 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* 品牌颜色 */
+  --primary-color: #007AFF;
+  --secondary-color: #8056ff;
+  --accent-color: #00e0c6;
+  
+  /* 渐变色 */
+  --gradient-primary: linear-gradient(to right, #007AFF, #3399FF);
+  --gradient-secondary: linear-gradient(to right, #8056ff, #7000ff);
+  --gradient-accent: linear-gradient(to right, #00e0c6, #007AFF);
+  
+  /* 自定义颜色 */
+  --slate-900: #0f172a;
+  --slate-800: #1e293b;
+  --slate-700: #334155;
+  
+  /* 模糊效果 */
+  --blur-sm: 8px;
+  --blur-md: 16px;
+  --blur-lg: 24px;
+  
+  /* 主背景渐变 */
+  --background-gradient: radial-gradient(circle at 50% 0%, rgba(0, 122, 255, 0.15), transparent 50%),
+                         radial-gradient(circle at 85% 30%, rgba(128, 86, 255, 0.15), transparent 50%),
+                         radial-gradient(circle at 15% 70%, rgba(0, 224, 198, 0.15), transparent 50%);
+  
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-primary: 0 4px 14px 0 rgba(0, 122, 255, 0.39);
+  
+  /* 圆角 */
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* 强制使用深色主题 */
+:root {
+  --background: #050505;
+  --foreground: #ededed;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #050505;
     --foreground: #ededed;
   }
 }
 
 body {
   background: var(--background);
+  background-image: var(--background-gradient);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 添加平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 通用动画类 */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.7s ease-out forwards;
+}
+
+/* 新增动画效果 */
+.animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+/* 渐变文本 */
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: var(--gradient-primary);
+}
+
+.gradient-text-accent {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: var(--gradient-accent);
+}
+
+/* 渐变边框 */
+.gradient-border {
+  position: relative;
+  border-radius: var(--radius);
+  z-index: 1;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  padding: 1px;
+  background: var(--gradient-primary);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+}
+
+/* 脉冲动画 */
+.pulse {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* 模糊光斑效果 */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(var(--blur-lg));
+  z-index: -1;
+  opacity: 0.6;
+  transition: all 0.8s ease;
+  animation: floatAnimation 10s ease-in-out infinite;
+}
+
+.blob-primary {
+  background: var(--primary-color);
+  animation-delay: 0s;
+}
+
+.blob-secondary {
+  background: var(--secondary-color);
+  animation-delay: -3s;
+}
+
+.blob-accent {
+  background: var(--accent-color);
+  animation-delay: -6s;
+}
+
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-10px) translateX(10px);
+  }
+  50% {
+    transform: translateY(10px) translateX(-10px);
+  }
+  75% {
+    transform: translateY(5px) translateX(5px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--slate-900);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* 玻璃态效果 */
+.glass {
+  background: rgba(15, 23, 42, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.glass:hover {
+  background: rgba(15, 23, 42, 0.3);
+  box-shadow: var(--shadow-md);
+}
+
+/* 按钮悬停效果 */
+.rounded-full.gradient-border:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary);
+  transition: all 0.3s ease;
+}
+
+/* 卡片样式 */
+.card {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* 输入框样式 */
+input, textarea, select {
+  border-radius: var(--radius);
+}
+
+/* 标准CSS变量定义 */
+:root {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
 }
